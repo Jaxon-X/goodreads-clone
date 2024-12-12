@@ -25,6 +25,9 @@ class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.book}  by {self.author}"
+
 class BookReview(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
     book = models.ForeignKey(Book, on_delete=CASCADE)
@@ -32,6 +35,9 @@ class BookReview(models.Model):
     stars_given = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+
+    def __str__(self):
+        return f"{self.user} {self.stars_given} for {self.book}"
 
 
 
