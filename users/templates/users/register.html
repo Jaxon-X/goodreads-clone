@@ -5,11 +5,10 @@
     <title>Register Page</title>
 </head>
 <body>
+<h1>Register Page</h1>
 <form class="register-form" method="post" action="{% url 'users:register' %}">
     {% csrf_token %}
-    <h2>Register</h2>
     {{ form.as_p }}
-
     <input type="submit" value="Register"></input>
 </form>
 
