@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.views import View
 from books.models import  Book
+
+
 class BooksView(View):
+
     def get(self, request):
 
         books = Book.objects.all()
@@ -10,6 +13,7 @@ class BooksView(View):
 
 
 class BookDetailView(View):
+
     def get(self, request, book_id):
         book = Book.objects.get(pk=book_id)
         context = {'book': book}
