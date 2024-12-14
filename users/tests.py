@@ -72,12 +72,14 @@ class RegistrationTestCase(TestCase):
         self.assertEqual(user_count, 1)
         self.assertEquals(response.context['form'].errors['username'], ["A user with that username already exists."])
 
+
 class LoginTestCase(TestCase):
-    def test_user_successful_login(self):
-        db_user = User.objects.create(username="jaxxon", first_name="Jakhon", last_name="Xudoyberdiyev", email="xudoyberdiyev33@gmail.com")
+    def setUp(self):
+        db_user = User.objects.create(username="jaxxon", first_name="Jakhon")
         db_user.set_password("somepassword")
         db_user.save()
 
+    def test_user_successful_login(self):
         self.client.post(
             reverse('users:login'),
             data = {
@@ -88,11 +90,13 @@ class LoginTestCase(TestCase):
         user = get_user(self.client)
         self.assertTrue(user.is_authenticated)
 
-    def test_invalid_credentilas(self):
-        db_user = User.objects.create(username="jaxxon", first_name="Jakhon", last_name="Xudoyberdiyev", email="xudoyberdiyev33@gmail.com")
-        db_user.set_password("somepassword")
-        db_user.save()
+    def test_user_logout(self):
+        self.client.login(username="jaxxon", password="somepassword")
+        self.client.get(reverse('users:logout'))
+        user = get_user(self.client)
+        self.assertFalse(user.is_authenticated)
 
+    def test_invalid_credentilas(self):
         self.client.post(
             reverse('users:login'),
             data = {

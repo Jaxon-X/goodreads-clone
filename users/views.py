@@ -1,8 +1,12 @@
-from django.contrib.auth import login
+from django.contrib import messages
+
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
+
+from goodreads.settings import LOGIN_URL
 from users.forms import UserCreateForm
 
 
@@ -35,7 +39,8 @@ class LoginView(View):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("landing_page")
+            messages.success(request, "You have successfully logged in.")
+            return redirect("books:list")
         else:
             context = {'form': AuthenticationForm()}
             return render(request, 'users/login.html', context )
@@ -43,3 +48,10 @@ class LoginView(View):
 class ProfileView(LoginRequiredMixin,View):
     def get(self, request):
         return render(request, 'users/profile.html')
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.info(request, "You have been logged out.")
+        return redirect('landing_page')
