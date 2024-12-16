@@ -10,7 +10,7 @@
 <form class="register-form" method="post" action="{% url 'users:login' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Login"></input>
+    <button>Log in</button> <span class="ms-3">No account? Then <a  href="{% url 'users:register' %}">get register</a></span>
 </form>
 {% endblock %}
 
