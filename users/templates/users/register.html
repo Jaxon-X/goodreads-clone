@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register Page</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+
+{% block title %}Register Page{% endblock%}
+
+
+
+{% block content %}
 <h1>Register Page</h1>
 <form class="register-form" method="post" action="{% url 'users:register' %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Register"></input>
 </form>
-
-</body>
-</html>
+{% endblock %}

@@ -6,7 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 
-from goodreads.settings import LOGIN_URL
 from users.forms import UserCreateForm
 
 
@@ -44,6 +43,17 @@ class LoginView(View):
         else:
             context = {'form': AuthenticationForm()}
             return render(request, 'users/login.html', context )
+
+class ProfileView(LoginRequiredMixin,View):
+    def get(self, request):
+        return render(request, 'users/profile.html')
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.info(request, "You have been logged out.")
+        return redirect('landing_page')
 
 class ProfileView(LoginRequiredMixin,View):
     def get(self, request):
