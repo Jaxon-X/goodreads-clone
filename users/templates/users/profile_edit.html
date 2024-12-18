@@ -6,7 +6,7 @@
 
 {% block content %}
 <h1>Update Page</h1>
-<form class="update-form" method="post" action="{% url 'users:edit' %}">
+<form class="update-form" method="post" action="{% url 'users:edit' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button>Save changes</button>
