@@ -1,13 +1,14 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from users.models import CustomUser
-from django.db.models import CASCADE
+from django.db.models import CASCADE, ImageField
 
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     isbn = models.CharField(max_length=17)
+    cover_picture = ImageField(default='default.png')
 
     def __str__(self):
         return self.title

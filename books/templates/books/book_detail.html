@@ -6,7 +6,9 @@
 
 
 {% block content %}
-        <h1>Book Detail Page</h1>
+        <h1>{{book.title}}</h1>
+
+        <img class="cover_pic" alt="book_cover_picture" src="{{ book.cover_picture.url }}">
         <p>
             {{book.title}}
         </p>
