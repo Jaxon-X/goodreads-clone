@@ -6,18 +6,30 @@
 
 
 {% block content %}
+
 <h1>Books</h1>
 {% if messages %}
-{% for message in messages %}
-<span class="{{ message.tags }}"> {{ message }}</span>
-{% endfor %}
+    {% for message in messages %}
+        <span class="{{ message.tags }}"> {{ message }}</span>
+    {% endfor %}
 {% endif %}
+
+
 {% if books %}
-<ul>
     {% for book in books %}
-    <li>
-        <a href="{% url 'books:detail' book.id %}">{{ book.title }} </a>
-    </li><br>
+        <div class="row mb-4">
+            <div class="col-2">
+                <img class="cover_pic" alt="book_cover_picture" src="{{ book.cover_picture.url }}">
+            </div>
+
+            <div class="col-4 ms-4">
+                <a href="{% url 'books:detail' book.id %}">{{ book.title }} </a>
+                <p>
+                    {{ book.description}}
+                </p>
+            </div>
+
+        </div>
     {% endfor %}
 </ul>
 {% else %}
