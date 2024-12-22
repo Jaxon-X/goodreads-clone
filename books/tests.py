@@ -16,12 +16,13 @@ class BooksTestCase(TestCase):
         book3 = Book.objects.create(title='Book 3', description='desc3', isbn='242455')
 
         response = self.client.get(reverse('books:list'))
-        books = Book.objects.all()
-        for book in books:
+        # books = Book.objects.all()
+        for book in [book1, book2]:
             self.assertContains(response, book.title)
 
-        books_count = Book.objects.count()
-        self.assertEqual(books_count, 3)
+        response = self.client.get(reverse('books:list') + "?page=2")
+        self.assertContains(response, book3.title)
+
 
     def test_book_detail(self):
         book = Book.objects.create(title='Book1', description='desc1', isbn='11223')
