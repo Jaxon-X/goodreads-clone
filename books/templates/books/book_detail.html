@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 
 {% block title %}Book Detail Page{% endblock%}
@@ -21,21 +22,36 @@
         </p>
     </div>
 </div>
+<div class="row mb-4">
+    <div class="col-6">
+
+        <form method="POST" action="{% url 'books:reviews' book.id %}">
+            {% csrf_token %}
+            {{ form | crispy }}
+
+            <button class="btn btn-success">Add review</button>
+        </form>
+
+    </div>
+</div>
+
 
 <div>
-    <h4>Review</h4><hr>
+    {% if book.bookreview_set.exists %}
+        <h4>Review</h4><hr>
 
-    {% for review in book.bookreview_set.all %}
-
-
-    <div class="row mb-3">
+        {% for review in book.bookreview_set.all %}
 
 
-        <div class="col-7">
-           <b>{{ review.user.username }}</b>  rated it {{ review.stars_given }} stars at <span class="fw-lighter">{{ review.created_at }}</span>
-            <p>{{ review.comment }}</p>
+        <div class="row mb-3">
+
+
+            <div class="col-7">
+               <b>{{ review.user.username }}</b>  rated it {{ review.stars_given }} stars at <span class="fw-lighter">{{ review.created_at }}</span>
+                <p>{{ review.comment }}</p>
+            </div>
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

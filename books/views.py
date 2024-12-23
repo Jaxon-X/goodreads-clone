@@ -1,16 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.views.generic import ListView, DetailView
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template.base import kwarg_re
+from django.urls import reverse
 from django.views import View
-from books.models import  Book
 
-# class BooksView(ListView):
-#     template_name = 'books/books_list.html'
-#     queryset = Book.objects.all()
-#     context_object_name = 'books'
-#     paginate_by = 2
-
+from books.forms import BookReviewForm
+from books.models import  Book, BookReview
 class BooksView(View):
 
     def get(self, request):
@@ -32,16 +29,27 @@ class BooksView(View):
         )
 
 
+class BookDetailView(View):
 
-class BookDetailView(DetailView):
-    template_name = 'books/book_detail.html'
-    pk_url_kwarg = 'book_id'
-    model = Book
+    def get(self, request, book_id):
+        book = Book.objects.get(pk=book_id)
+        review_form = BookReviewForm()
+        context = {'book': book, "form": review_form}
+        return render(request, "books/book_detail.html", context)
 
+class BookReviewView(LoginRequiredMixin, View):
+    def post(self, request, book_id):
+        book = Book.objects.get(pk=book_id)
+        review_form = BookReviewForm(data=request.POST)
 
-# class BookDetailView(View):
-#
-#     def get(self, request, book_id):
-#         book = Book.objects.get(pk=book_id)
-#         context = {'book': book}
-#         return render(request, "books/book_detail.html", context)
+        if review_form.is_valid():
+            BookReview.objects.create(
+                book=book,
+                user=request.user,
+                comment = review_form.cleaned_data['comment'],
+                stars_given = review_form.cleaned_data['stars_given'],
+            )
+            return redirect(reverse("books:detail", kwargs = {"book_id": book.id}))
+
+        context = {'book': book, "form": review_form}
+        return render(request, "books/book_detail.html", context)
