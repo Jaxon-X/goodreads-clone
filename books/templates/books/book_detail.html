@@ -20,6 +20,22 @@
             {{book.description}}
         </p>
     </div>
+</div>
 
+<div>
+    <h4>Review</h4><hr>
+
+    {% for review in book.bookreview_set.all %}
+
+
+    <div class="row mb-3">
+
+
+        <div class="col-7">
+           <b>{{ review.user.username }}</b>  rated it {{ review.stars_given }} stars at <span class="fw-lighter">{{ review.created_at }}</span>
+            <p>{{ review.comment }}</p>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

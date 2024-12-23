@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils import timezone
+
 from users.models import CustomUser
 from django.db.models import CASCADE, ImageField
 
@@ -36,6 +38,8 @@ class BookReview(models.Model):
     stars_given = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.user} {self.stars_given} for {self.book}"
