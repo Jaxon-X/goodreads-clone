@@ -13,3 +13,23 @@
     width: 200px;
     height: 250px;
 }
+.review-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.book-cover {
+    max-width: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.rating span {
+    color: #FFD700;
+    font-size: 18px;
+}
+.review-text {
+    font-size: 16px;
+    color: #555;
+}

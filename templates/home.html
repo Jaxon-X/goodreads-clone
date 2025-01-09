@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h3>Home Page</h3>
+
+    <h1 class="text-center text-primary mb-4">Book Reviews</h1>
+    {% for review in book_reviews %}
+
+        <div class="container my-5">
+
+            <div class="review-card p-3 d-flex align-items-start">
+                <img src="{{ review.book.cover_picture.url }}" alt="Book Cover" class="book-cover me-3">
+                <div>
+                    <h4> {{ review.book }} </h4>
+                    <p class="text-muted mb-1">by {{ review.user }} </p>
+                    <p class="review-text"> {{ review.comment }}</p>
+                    <div class="rating">
+                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+{% endfor %}
+{% endblock %}
